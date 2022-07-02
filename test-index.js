@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 
 const puppeteer = require("puppeteer");
 
@@ -8,7 +8,7 @@ const puppeteer = require("puppeteer");
   const tempmailPage = await browser.newPage();
   await tempmailPage.goto("https://temp-mail.org/ko/change");
 
-  let email: string = "";
+  let email = "";
   while (true) {
     email = await tempmailPage.$eval("#mail", (v) => v.value);
     if (email.startsWith("로딩")) {
@@ -37,9 +37,6 @@ const puppeteer = require("puppeteer");
     dob: registerAccountPage.$(
       "#app-mount > div.appDevToolsWrapper-1QxdQf > div > div.app-3xd6d0 > div > div > div > form > div > div > div.container-2UAUAG.marginTop20-2T8ZJx > div.inputs-3ELGTz"
     ),
-    click: registerAccountPage.$(
-      "#app-mount > div.appDevToolsWrapper-1QxdQf > div > div.app-3xd6d0 > div > div > div > form > div > div > div:nth-child(6) > button"
-    ),
   };
 
   // type email
@@ -55,28 +52,21 @@ const puppeteer = require("puppeteer");
     (v) =>
       v
         .type("anysdfkljsdflksdjkl")
-
-        /* Typing date of birth */
-        .then(() => registerAccountPage.waitForTimeout(200))
         .then(() => registerAccountPage.keyboard.press("Tab"))
         .then(() => registerAccountPage.keyboard.down("1"))
         .then(() => registerAccountPage.keyboard.up("1"))
         .then(() => registerAccountPage.keyboard.press("Enter")) // end of pressing month
 
-        .then(() => registerAccountPage.waitForTimeout(200))
+        .then(() => registerAccountPage.keyboard.press("Tab"))
         .then(() => registerAccountPage.keyboard.down("1"))
         .then(() => registerAccountPage.keyboard.up("1"))
         .then(() => registerAccountPage.keyboard.press("Enter")) // end of pressing day
 
-        .then(() => registerAccountPage.waitForTimeout(200))
-        .then(() => registerAccountPage.keyboard.down("9"))
-        .then(() => registerAccountPage.keyboard.up("9"))
-        .then(() => registerAccountPage.keyboard.down("9"))
-        .then(() => registerAccountPage.keyboard.up("9"))
+        .then(() => registerAccountPage.keyboard.press("Tab"))
+        .then(() => registerAccountPage.keyboard.down("99"))
+        .then(() => registerAccountPage.keyboard.up("99"))
         .then(() => registerAccountPage.keyboard.press("Enter")) // end of pressing year
   );
   await registerAccountPage.waitForTimeout(1000);
   // TODO: uuid값 파일로 저장
-
-  registerAccountPage.keyboard.press("Enter");
 })();

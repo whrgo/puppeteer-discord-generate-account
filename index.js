@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,10 +35,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var _this = this;
+Object.defineProperty(exports, "__esModule", { value: true });
 var puppeteer = require("puppeteer");
-(function () { return __awaiter(_this, void 0, void 0, function () {
-    var browser, tempmailPage, email;
+(function () { return __awaiter(void 0, void 0, void 0, function () {
+    var browser, tempmailPage, email, registerAccountPage, AccountObject;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, puppeteer.launch({ headless: false })];
@@ -60,13 +61,60 @@ var puppeteer = require("puppeteer");
                     return [3 /*break*/, 4];
                 }
                 else {
-                    console.log("Finded");
+                    console.log(email);
                     return [3 /*break*/, 6];
                 }
                 return [3 /*break*/, 4];
-            case 6:
-                // end of getting email
-                tempmailPage.close();
+            case 6: return [4 /*yield*/, browser.newPage()];
+            case 7:
+                registerAccountPage = _a.sent();
+                return [4 /*yield*/, registerAccountPage.goto("https://discord.com/register")];
+            case 8:
+                _a.sent();
+                AccountObject = {
+                    email: registerAccountPage.$("#app-mount > div.appDevToolsWrapper-1QxdQf > div > div.app-3xd6d0 > div > div > div > form > div > div > div:nth-child(1) > div > input"),
+                    username: registerAccountPage.$("#app-mount > div.appDevToolsWrapper-1QxdQf > div > div.app-3xd6d0 > div > div > div > form > div > div > div:nth-child(2) > div > input"),
+                    password: registerAccountPage.$("#app-mount > div.appDevToolsWrapper-1QxdQf > div > div.app-3xd6d0 > div > div > div > form > div > div > div:nth-child(3) > div > input"),
+                    dob: registerAccountPage.$("#app-mount > div.appDevToolsWrapper-1QxdQf > div > div.app-3xd6d0 > div > div > div > form > div > div > div.container-2UAUAG.marginTop20-2T8ZJx > div.inputs-3ELGTz"),
+                    click: registerAccountPage.$("#app-mount > div.appDevToolsWrapper-1QxdQf > div > div.app-3xd6d0 > div > div > div > form > div > div > div:nth-child(6) > button"),
+                };
+                // type email
+                AccountObject.email.then(function (v) { return v.type(email); });
+                return [4 /*yield*/, registerAccountPage.waitForTimeout(1000)];
+            case 9:
+                _a.sent();
+                // type username
+                AccountObject.username.then(function (v) { return v.type("sdklfsjldk"); });
+                return [4 /*yield*/, registerAccountPage.waitForTimeout(1000)];
+            case 10:
+                _a.sent();
+                // type password
+                AccountObject.password.then(function (v) {
+                    return v
+                        .type("anysdfkljsdflksdjkl")
+                        /* Typing date of birth */
+                        .then(function () { return registerAccountPage.waitForTimeout(200); })
+                        .then(function () { return registerAccountPage.keyboard.press("Tab"); })
+                        .then(function () { return registerAccountPage.keyboard.down("1"); })
+                        .then(function () { return registerAccountPage.keyboard.up("1"); })
+                        .then(function () { return registerAccountPage.keyboard.press("Enter"); }) // end of pressing month
+                        .then(function () { return registerAccountPage.waitForTimeout(200); })
+                        .then(function () { return registerAccountPage.keyboard.down("1"); })
+                        .then(function () { return registerAccountPage.keyboard.up("1"); })
+                        .then(function () { return registerAccountPage.keyboard.press("Enter"); }) // end of pressing day
+                        .then(function () { return registerAccountPage.waitForTimeout(200); })
+                        .then(function () { return registerAccountPage.keyboard.down("9"); })
+                        .then(function () { return registerAccountPage.keyboard.up("9"); })
+                        .then(function () { return registerAccountPage.keyboard.down("9"); })
+                        .then(function () { return registerAccountPage.keyboard.up("9"); })
+                        .then(function () { return registerAccountPage.keyboard.press("Enter"); });
+                } // end of pressing year
+                );
+                return [4 /*yield*/, registerAccountPage.waitForTimeout(1000)];
+            case 11:
+                _a.sent();
+                // TODO: uuid값 파일로 저장
+                registerAccountPage.keyboard.press("Enter");
                 return [2 /*return*/];
         }
     });
